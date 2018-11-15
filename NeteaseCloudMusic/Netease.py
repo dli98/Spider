@@ -5,10 +5,15 @@ from Crypto.Cipher import AES
 
 def simulate_js():
     import execjs
+    # Init environment
     node = execjs.get()
+    # Compile javascript
     file = 'encryption.js'
     ctx = node.compile(open(file).read())
-    data = ctx.eval()
+    # js = f'get_params("{id}")'
+    js = f'get_params()'
+    data = ctx.eval(js)
+    # data = ctx.eval('window')
     print(data)
 
 
@@ -21,7 +26,7 @@ class Encrypyed():
     # 登录加密算法, 基于https://github.com/stkevintan/nw_musicbox脚本实现
     def encrypted_request(self, text):
         text = json.dumps(text)
-        sec_key = self.create_secret_key(16)
+        sec_key = self.create_secret_key(8)
         enc_text = self.aes_encrypt(self.aes_encrypt(text, self.nonce), sec_key.decode('utf-8'))
         enc_sec_key = self.rsa_encrpt(sec_key, self.pub_key, self.modulus)
         data = {'params': enc_text, 'encSecKey': enc_sec_key}
@@ -32,16 +37,20 @@ class Encrypyed():
         text = text + chr(pad) * pad
         encryptor = AES.new(secKey.encode('utf-8'), AES.MODE_CBC, b'0102030405060708')
         ciphertext = encryptor.encrypt(text.encode('utf-8'))
+        # b64encode函数的参数为byte类型，所以必须先转码
         ciphertext = base64.b64encode(ciphertext).decode('utf-8')
         return ciphertext
 
     def rsa_encrpt(self, text, pubKey, modulus):
         text = text[::-1]
         rs = pow(int(binascii.hexlify(text), 16), int(pubKey, 16), int(modulus, 16))
+        # format(rs, 'x')  decimal to hexdecimal
+        # Python zfill() 方法返回指定长度的字符串，原字符串右对齐，前面填充0。
         return format(rs, 'x').zfill(256)
 
     def create_secret_key(self, size):
-        return binascii.hexlify(os.urandom(size))[:16]
+        # 作用是返回的二进制数据的十六进制表示。每一个字节的数据转换成相应的2位十六进制表示
+        return binascii.hexlify(os.urandom(size))
 
 
 class Song():
@@ -192,6 +201,7 @@ class Netease():
             song = self.crawler.download_song(song_name, song_num, self.quiet)
         except:
             print('download_song_by_serach error')
+            return
         # 如果找到了音乐, 则下载
         if song != None:
             print(f'{song.song_name}id: {song.song_id}')
@@ -211,16 +221,16 @@ class Netease():
             song_name = song_name.replace('/', '')
             song_name = song_name.replace('.', '')
             self.crawler.get_song_by_url(url, song_name, song_num, folder)
-            print(f'{song_name} has been downloaded')
+            print(f'{song_name} downloaded successfully')
         except:
             print('download_song error')
 
 
 if __name__ == '__main__':
-    simulate_js()
-    # timeout = 60
-    # output = 'Musics'
-    # quiet = True
-    # cookie_path = 'Cookie'
-    # netease = Netease(timeout, output, quiet, cookie_path)
-    # netease.download_song('way back home', 1)
+    # simulate_js()
+    timeout = 60
+    output = 'Musics'
+    quiet = True
+    cookie_path = 'Cookie'
+    netease = Netease(timeout, output, quiet, cookie_path)
+    netease.download_song('way back home', 1)
