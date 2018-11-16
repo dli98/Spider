@@ -1,4 +1,4 @@
-# Javascript-python-
+# JS加密-python-
 
 RSA算法概述如下：
 找两素数p和q
