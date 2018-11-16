@@ -3,18 +3,18 @@ import requests, base64, binascii, json, os
 from Crypto.Cipher import AES
 
 
-def simulate_js():
-    import execjs
-    # Init environment
-    node = execjs.get()
-    # Compile javascript
-    file = 'encryption.js'
-    ctx = node.compile(open(file).read())
-    # js = f'get_params("{id}")'
-    js = f'get_params()'
-    data = ctx.eval(js)
-    # data = ctx.eval('window')
-    print(data)
+# def simulate_js():
+#     import execjs
+#     # Init environment
+#     node = execjs.get()
+#     # Compile javascript
+#     file = 'encryption1.js'
+#     ctx = node.compile(open(file).read())
+#     # js = f'get_params("{id}")'
+#     js = f'Crypto'
+#     data = ctx.eval(js)
+#     # data = ctx.eval('window')
+#     print(data)
 
 
 class Encrypyed():
@@ -227,7 +227,6 @@ class Netease():
 
 
 if __name__ == '__main__':
-    # simulate_js()
     timeout = 60
     output = 'Musics'
     quiet = True
