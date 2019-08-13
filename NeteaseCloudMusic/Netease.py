@@ -1,25 +1,17 @@
 # -*- coding:utf-8 -*-
-import requests, base64, binascii, json, os
+import base64
+import binascii
+import json
+import os
+import requests
 from Crypto.Cipher import AES
-
-
-# def simulate_js():
-#     import execjs
-#     # Init environment
-#     node = execjs.get()
-#     # Compile javascript
-#     file = 'encryption1.js'
-#     ctx = node.compile(open(file).read())
-#     # js = f'get_params("{id}")'
-#     js = f'Crypto'
-#     data = ctx.eval(js)
-#     # data = ctx.eval('window')
-#     print(data)
 
 
 class Encrypyed():
     def __init__(self):
-        self.modulus = '00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7'
+        self.modulus = '00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e4' \
+                       '17629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575' \
+                       'cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7'
         self.nonce = '0CoJUm6Qyw8W8jud'
         self.pub_key = '010001'
 
@@ -28,22 +20,22 @@ class Encrypyed():
         text = json.dumps(text)
         sec_key = self.create_secret_key(8)
         enc_text = self.aes_encrypt(self.aes_encrypt(text, self.nonce), sec_key.decode('utf-8'))
-        enc_sec_key = self.rsa_encrpt(sec_key, self.pub_key, self.modulus)
+        enc_sec_key = self.rsa_encrypt(sec_key, self.pub_key, self.modulus)
         data = {'params': enc_text, 'encSecKey': enc_sec_key}
         return data
 
-    def aes_encrypt(self, text, secKey):
+    def aes_encrypt(self, text, sec_key):
         pad = 16 - len(text) % 16
         text = text + chr(pad) * pad
-        encryptor = AES.new(secKey.encode('utf-8'), AES.MODE_CBC, b'0102030405060708')
+        encryptor = AES.new(sec_key.encode('utf-8'), AES.MODE_CBC, b'0102030405060708')
         ciphertext = encryptor.encrypt(text.encode('utf-8'))
         # b64encode函数的参数为byte类型，所以必须先转码
         ciphertext = base64.b64encode(ciphertext).decode('utf-8')
         return ciphertext
 
-    def rsa_encrpt(self, text, pubKey, modulus):
+    def rsa_encrypt(self, text, pub_key, modulus):
         text = text[::-1]
-        rs = pow(int(binascii.hexlify(text), 16), int(pubKey, 16), int(modulus, 16))
+        rs = pow(int(binascii.hexlify(text), 16), int(pub_key, 16), int(modulus, 16))
         # format(rs, 'x')  decimal to hexdecimal
         # Python zfill() 方法返回指定长度的字符串，原字符串右对齐，前面填充0。
         return format(rs, 'x').zfill(256)
@@ -79,7 +71,8 @@ class Crawler():
             'Content-Type': 'application/x-www-form-urlencoded',
             'Host': 'music.163.com',
             'Referer': 'http://music.163.com/search/',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 '
+                          '(KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
         }
         self.session = requests.Session()
         self.session.headers.update(self.headers)
@@ -203,7 +196,7 @@ class Netease():
             print('download_song_by_serach error')
             return
         # 如果找到了音乐, 则下载
-        if song != None:
+        if song is not None:
             print(f'{song.song_name}id: {song.song_id}')
             self._download_song(song.song_id, song.song_name, song.song_num, self.folder)
 
