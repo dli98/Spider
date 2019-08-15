@@ -18,18 +18,6 @@ params = {
 
 # r = re.search('window.__DATA__ = "([^"]+)"', response.text).group(1)  # 加密的数据
 
-
-#
-# # 导入js
-# with open('bundle.js', 'r', encoding='gbk') as f:
-#     decrypt_js = f.read()
-# ctx = execjs.compile(decrypt_js)
-# data = ctx.call('decrypt', r)
-# print(data)
-# for item in data['payload']['items']:
-#     print(item)
-#     break
-
 class Encrypt(object):
     def __init__(self):
         pass
