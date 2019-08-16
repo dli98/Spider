@@ -1,6 +1,34 @@
 # -python-
 
-window.__data__参数破解：💗bplist💗
+window.__data__参数破解：💗base64 + xxHash + bplist💗
+
+## base64 编码
+![豆瓣base64 非加密算法](../iamges/douban/base64.png)
+
+13992 行，e.from(r, "base64") 很明显的提示 --> base解码过程
+
+我们使用Python库 base64 进行验证
+```python
+import base64
+base64.b64decode(window.__data__)
+```
+
+## xxHash
+13996 行，Object(o.hash)  --> 肯定是一个hash 算法。我们下一步进入这个函数。
+![豆瓣base64 非加密算法](../iamges/douban/xxhash.png)
+4025 行 update().digest() --> 用过Python hashlib库的人是不是感觉很熟悉
+
+4039 - 4043 行 五个 magic constants   --> 进一步确认是xxhash 算法
+
+```python
+import xxhash
+
+# u 是base64 解密之后的最后16个字节
+sec_key = xxhash.xxh64_hexdigest(u, 41405).encode("utf-8")
+```
+
+
+xxHash 是一种非常快速的非加密哈希算法。使用[教程](https://pypi.org/project/xxhash/)
 
 ## bplist: Binary Plist解析详解
 
