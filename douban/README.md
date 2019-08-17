@@ -88,7 +88,6 @@ xxHash 是一种非常快速的非加密哈希算法。使用[教程](https://py
 |字符串 | 0x5X | ASCII编码 X表示这段数据的字节数,如果X=F则后面作为整数对象继续解析所得数既为字节数 |
 |字符串 | 0x6X | UTF-16 X表示这段数据的字节数,如果X=F则后面作为整数对象继续解析所得数既为字节数 记得双字节! |
 |数组 | 0xAX | X表示其元素个数,如果X=F则后面作为整数对象继续解析所得数既为个数 后面接着X个元素在偏移表的位置 |
-|字典 | 0xCX | 当做数组处理 |
-|单字节 | 0xDX | X表示其元素个数,如果X=F则后面作为整数对象继续解析所得数既为个数 后面接着X个key在偏移表的位置,X个value在偏移表的位置 |
+|字典 | 0xDX | X表示其元素个数,如果X=F则后面作为整数对象继续解析所得数既为个数 后面接着X个key在偏移表的位置,X个value在偏移表的位置 |
 
 [javascript pblist parse无混淆代码](http://mail-archives.apache.org/mod_mbox/cordova-commits/201706.mbox/%3C22496a5587524ec985891ee5fe5e1219@git.apache.org%3E)
