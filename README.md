@@ -1,15 +1,15 @@
-# JS加密-python-
+# 一些网站的JS爬虫程序
 
-RSA算法概述如下：
-找两素数p和q
-取n=p*q
-取t=(p-1)*(q-1)
-取任何一个数e,要求满足e<t并且e与t互素（就是最大公因数为1）
-取d*e%t==1
+- [x] [网易云音乐](https://music.163.com/) ---[代码](/NeteaseCloudMusic)
+- [x] [豆瓣读书](https://book.douban.com/) ---[代码](/douban)
 
-这样最终得到三个数： n   d   e
+## tips of pull request 
 
-设消息为数M (M <n)
-设c=(M^d)%n就得到了加密后的消息c
-设m=(c^e)%n则 m == M，从而完成对c的解密。
-注：^表示次方,上面两式中的d和e可以互换。
+- 欢迎大家一起来 pull request 
+
+## Problems
+
+- 代码失效：由于网站策略或者样式改变，导致代码失效，请给我提issue，如果你已经解决，可以提PR，谢谢！
+
+## 注意：💗
+- 本项目仅用于学习和交流
