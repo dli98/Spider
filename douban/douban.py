@@ -83,6 +83,7 @@ class Encrypt(object):
         a = a[0: s] + a[s + i:]
         sec_key = xxhash.xxh64_hexdigest(u, 41405).encode("utf-8")
         print(sec_key)
+        print(a)
 
         text = self.r_encrypt(a, sec_key)
         local_packet = bytearray()
