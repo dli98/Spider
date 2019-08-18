@@ -5,8 +5,10 @@ import requests
 import xxhash
 import base64
 import plistlib
-from plistlib import FMT_BINARY, _BinaryPlistParser, _undefined
 import struct
+
+from plistlib import FMT_BINARY, _BinaryPlistParser, _undefined
+from utils import rc4
 
 
 def _read_object(self, ref):
@@ -71,6 +73,7 @@ def _read_object(self, ref):
 
 
 # 利用猴子补丁，修改源代码的方法
+# python 3.6.8。其它版本可能不行。自行修改补丁即可。
 _BinaryPlistParser._read_object = _read_object
 
 
@@ -81,46 +84,13 @@ class Encrypt(object):
         s = max((len(a) - 2 * i) // 3, 0)
         u = a[s: s + i]
         a = a[0: s] + a[s + i:]
-        sec_key = xxhash.xxh64_hexdigest(u, 41405).encode("utf-8")
+        sec_key = xxhash.xxh64_hexdigest(u, 41405)
         print(sec_key)
-        print(a)
 
-        text = self.r_encrypt(a, sec_key)
-        local_packet = bytearray()
-        local_packet.append(text[0])
-        for i in text[1:]:
-            local_packet.extend(bytes([i]))
-        # print(local_packet)
+        text = rc4(a, sec_key)
 
-        data = plistlib.loads(local_packet, fmt=FMT_BINARY)
+        data = plistlib.loads(text, fmt=FMT_BINARY)
         return data
-
-    def r_encrypt(self, e, sec_key):
-        r = list(map(ord, sec_key.decode("utf-8")))
-        print(r)
-        s = 0
-        o = list(range(256))
-        i = 0
-        while s < 256:
-            i = (i + o[s] + r[s % len(r)]) % 256
-            n = o[s]
-            o[s] = o[i]
-            o[i] = n
-            s += 1
-
-        # print(o[:10])
-        s = 0
-        i = 0
-        a = list(range(len(e)))
-        for u in range(len(e)):
-            s = (s + 1) % 256
-            i = (i + o[s]) % 256
-            n = o[s]
-            o[s] = o[i]
-            o[i] = n
-            a[u] = e[u] ^ o[(o[s] + o[i]) % 256]
-        # print(a[:10])
-        return a
 
 
 if __name__ == '__main__':
