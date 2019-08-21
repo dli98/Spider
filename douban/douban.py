@@ -108,15 +108,3 @@ if __name__ == '__main__':
     for i in data:
         if isinstance(i, dict):
             print(i)
-
-    with open('bundle.js', 'r', encoding='gbk') as f:
-        decrypt_js = f.read()
-    ctx = execjs.compile(decrypt_js)
-    data = ctx.call('decrypt', r)
-    count = 0
-    for item in data['payload']['items']:
-        print(item)
-        count += 1
-        if count == 3:
-            break
-    print(count)
