@@ -1,6 +1,5 @@
 var lllIIllI = /%20|%0D|%0A/gi;
 
-/* als het goed is zijn deze variabelen niet meer nodig */
 var lIIIIIIl = 0;
 var lIIIIIlI = 1;
 var lIIIIIll = 16;
@@ -26,44 +25,54 @@ function llIIllII(argument) {
     for (i = 0; i < 32; i++) {
         stringSet6 += stringSet3.charAt(myArray[i] % stringSet3.length);
     }
-    var array1 = new Array(argument.length);
-    var array2 = new Array(stringSet4.length);
-    for (i = 0; i < argument.length; i++) {
+    var array1 = new Array(9);
+    var array2 = new Array(9);
+    for (i = 0; i < 9; i++) {
         array1[i] = stringSet1.indexOf(argument.charAt(i));
     }
-    for (i = 0; i < stringSet4.length; i++) {
+    for (i = 0; i < 9; i++) {
         array2[i] = stringSet1.indexOf(stringSet4.charAt(i));
     }
     for (i = 0; i < 10000; i++) {
-        array1[i % argument.length] +=
+        array1[i % 9] +=
             stringSet3.indexOf(stringSet6.charAt(i % 32))
-            ^ array1[(i + 1) % argument.length]
-            ^ array1[(i + 2) % argument.length];
-        array2[i % stringSet4.length] +=
+            ^ array1[(i + 1) % 9]
+            ^ array1[(i + 2) % 9];
+        array2[i % 9] +=
             stringSet3.indexOf(stringSet6.charAt(i % 32))
-            ^ array2[(i + 1) % stringSet4.length]
-            ^ array2[(i + 2) % stringSet4.length];
-        if (array1[i % argument.length] > stringSet1.length - 1) {
-            array1[i % argument.length] %= stringSet1.length;
-            if (array2[i % stringSet4.length] > stringSet1.length - 1) {
-                array2[i % stringSet4.length] %= stringSet1.length;
-            }
+            ^ array2[(i + 1) % 9]
+            ^ array2[(i + 2) % 9];
+        if (array1[i % 9] > 61) {
+            array1[i % 9] %= 62;
+        }
+        if (array2[i % 9] > 61) {
+            array2[i % 9] %= 62;
         }
     }
 
     var IIIIIIlI = "";
     var IIIIIIll = "";
-    for (i = 0; i < argument.length; i++) {
-        IIIIIIlI += stringSet1.charAt(array1[i % argument.length]);
-        for (i = 0; i < stringSet4.length; i++) {
-            IIIIIIll += stringSet1.charAt(array2[i % stringSet4.length]);
-            var IIIIllll = false;
-        }
+    for (i = 0; i < 9; i++) {
+        //0KhEoB9M5 <-- [ 48, 75, 104, 69, 111, 66, 57, 77, 53 ] <-- array1[]
+        //qLMsjYygK <-- [ 113, 76, 77, 115, 106, 89, 121, 103, 75 ] <-- array1[]
+        // <-- password length = 9
+        IIIIIIlI += stringSet1.charAt(array1[i % 9]);
     }
+    for (i = 0; i < 9; i++) {
+        // aftCP0szE <-- [ 97, 102, 116, 67, 80, 48, 115, 122, 69 ] <-- array2[]
+        // 2Qo4CxJXP <-- [ 50, 81, 111, 52, 67, 120, 74, 88, 80 ] <-- array2[]
+        IIIIIIll += stringSet1.charAt(array2[i % 9]);
 
-    for (i = 0; i < IIIllIII.length; i++) {
+    }
+    var IIIIllll = false;
+    // IIIllIII[0] = "aftCP0szE";
+    // IIIllIII[1] = "2Qo4CxJXP";
+    for (i = 0; i < 2; i++) {
         if (IIIllIII[i] == IIIIIIll) {
             IIIIllll = true;
+
+            // IIIllIIl[0] = "0KhEoB9M5";
+            // IIIllIIl[1] = "qLMsjYygK";
             if (IIIllIIl[i] == IIIIIIlI) {
                 alert("Congratulations!");
             } else {
@@ -83,22 +92,23 @@ function llIIllII(argument) {
 
 function lIIIIllI(argument) {
     var total = "";
-    for (i = 0; i < argument.length / 8; i++) {
+    for (i = 0; i < 9 / 8; i++) {
         partial = 0;
-        for (i = 0; i < 8; i++) {
-            if (argument.charAt((i * 8) + (7 - i)) == "l") {
+        for (i = 0; i < 8; i++)
+            if (argument.charAt((i * 8) + (7 - i)) == "l")
                 partial += Math.pow(2, i);
-                total += String.fromCharCode(partial);
-            }
-        }
+        total += String.fromCharCode(partial);
     }
-
     return total;
 }
 
+// "http://www.net-force.nl/challenge/level108/index.html"
 var parentLocation = parent.location.href.split("/");
+// index.html
 var parentLocationQuery = parentLocation[parentLocation.length - 1].split("?");
+// location.href "http://www.net-force.nl/challenge/level108/challenge.html"
 var myLocation = location.href.split("/");
+// challenge.html
 var myLocationQuery = myLocation[myLocation.length - 1].split("?");
 
 if (parentLocationQuery[0] == "challenge.html" || myLocationQuery[0] != "challenge.html") {

