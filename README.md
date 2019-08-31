@@ -2,6 +2,7 @@
 
 - [x] [网易云音乐](https://music.163.com/) ---[代码](/NeteaseCloudMusic)
 - [x] [豆瓣读书](https://book.douban.com/) ---[代码](/douban)
+- [x] [汽车之家论坛](https://club.autohome.com.cn/bbs/) ---[代码](/car)
 - [x] [boss直聘注册登录](https://signup.zhipin.com/?ka=header-register) ---[代码](/bosszp)
 - [ ] [drugs are bad](http://www.net-force.nl/challenge/level108/index.html) ---[代码](/Drugs%20are%20bad)
 
