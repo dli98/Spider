@@ -1,4 +1,5 @@
 import asyncio
+
 from retrying import retry
 from pyppeteer.launcher import launch
 
@@ -80,7 +81,7 @@ async def get_encrypt_params(page, path="register"):
         return
 
 
-async def pyppeteer_solve_nocaptcha(url, path="register"):
+async def pyppeteer_solve_captcha(url, path="register"):
     browser = await launch({'headless': False, 'dumpio': True, 'args': ['--no-sandbox', '--window-size=1366,768']},
                            userDataDir='./userdata')
     page = await browser.newPage()

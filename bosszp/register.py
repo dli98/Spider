@@ -1,11 +1,13 @@
 import asyncio
+
 import requests
-from bosszp.resolve_nocaptcha import pyppeteer_solve_nocaptcha
+from bosszp.resolve_nocaptcha import pyppeteer_solve_captcha
+
 
 def send_sms(data):
     # 从打码平台获取电话号码，验证码
     url = 'https://signup.zhipin.com/wapi/zppassport/send/smsCode'
-    res = requests.post(url=url, headers= headers, data=data)
+    res = requests.post(url=url, headers=headers, data=data)
     if res.json()['message'] == 'Success':
         print("Boss发送短信成功", res.json())
         phone_code = "打码平台获取或自己手动输入"
@@ -31,7 +33,7 @@ if __name__ == '__main__':
     data = dict()
     data['phone'] = "1810809****"  # 打码平台获取
     loop = asyncio.get_event_loop()
-    form = loop.run_until_complete(pyppeteer_solve_nocaptcha(url))
+    form = loop.run_until_complete(pyppeteer_solve_captcha(url))
 
     data.update(form)
 

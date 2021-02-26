@@ -3,10 +3,10 @@ import re
 from bs4 import BeautifulSoup
 from fontTools.ttLib import TTFont
 
+
 class crawl():
     def __init__(self):
         self.sess = requests.session()
-
 
     def get_html(self, url):
         headers = {
@@ -33,16 +33,16 @@ class crawl():
                      u'左', u'八', u'三', u'多']
 
         font_base = TTFont('font_base.ttf')
-        # font_1.saveXML('font_base.xml')
-        font_base_order = font_base.getGlyphOrder()[1:]    # 原始font_base 编码
+        # font_base.saveXML('font_base.xml')
+        font_base_order = font_base.getGlyphOrder()[1:]  # 原始font_base 编码
 
         font_parse = TTFont(font_parse_name)
-        # font_parse.saveXML('font_parse_2.xml')  # 调试用
-        font_parse_order = font_parse.getGlyphOrder()[1:]   #
+        font_parse.saveXML('font_parse_2.xml')  # 调试用
+        font_parse_order = font_parse.getGlyphOrder()[1:]  #
 
         f_base_flag = []
         for i in font_base_order:
-            flags = font_base['glyf'][i].flags   #获取0、1值
+            flags = font_base['glyf'][i].flags  # 获取0、1值
             f_base_flag.append(list(flags))
 
         f_flag = []
@@ -55,10 +55,10 @@ class crawl():
             for b, j in enumerate(f_flag):
                 if self.comp(i, j):
                     key = font_parse_order[b].replace('uni', '')
+                    print(key)
                     key = eval(r'u"\u' + str(key) + '"').lower()
                     result_dict[key] = font_dict[a]
         return result_dict
-
 
     def comp(self, L1, L2):
 
@@ -75,15 +75,17 @@ class crawl():
     def parse_html(self, html):
         soup = BeautifulSoup(html, 'lxml')
 
-        font_url = soup.find('style',attrs={'type': 'text/css'}).text
+        font_url = soup.find('style', attrs={'type': 'text/css'}).text
+        # font_url = 'https:' + re.search('format\("woff"\),url\("(.*?)"\)', font_url, re.S).group(1)
         font_url = 'https:' + re.search(",url\('(//.*.ttf)'\) format\('woff'\)", font_url, re.S).group(1)
+
         new_font_name = "font_new.ttf"
 
         font_data = self.get_html(font_url)
         with open(new_font_name, 'wb') as f:  # 获得字体文件
             f.write(font_data)
 
-        map_data = self.decode_font(new_font_name)   # 得到字体映射
+        map_data = self.decode_font(new_font_name)  # 得到字体映射
         print(map_data)
         conttxt = soup.find(class_='conttxt').text
         # 去掉html标签

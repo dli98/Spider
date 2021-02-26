@@ -1,9 +1,10 @@
 import json
-import requests
 from binascii import b2a_hex
+
+import requests
+from requests.utils import dict_from_cookiejar
 from Crypto.Cipher import DES
 from Crypto.Util.Padding import pad
-from requests.utils import dict_from_cookiejar
 
 
 def get_key_iv_phpsessid():
